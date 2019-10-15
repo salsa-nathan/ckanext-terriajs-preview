@@ -26,6 +26,9 @@ https://docs.terria.io/guide/getting-started/
 
 Add `terriajs_preview` to CKAN `.ini` file, e.g.
 
-        ckan.plugins = ... terriajs_preview
+    ckan.plugins = ... terriajs_preview
 
- 
+## TODO
+
+- Make TerriaJS configurable (add CKAN `.ini` file setting)
+- Document creation of TerriaJS map preview in CKAN UI
