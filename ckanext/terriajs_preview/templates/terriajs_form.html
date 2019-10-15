@@ -1,0 +1,5 @@
+{% import 'macros/form.html' as form %}
+
+{{ form.checkbox('show_extent', label=_('Only show extent'), value=True, checked=data.show_extent, error=errors.show_extent) }}
+
+{{ form.input('extent', id='field-extent', label=_('Extent in Lat/Lon coords'), placeholder=_('eg: [143.819362,-37.8244315,144.984938,-36.75134]'), value=data.extent, error=errors.extent, classes=['control-medium']) }}

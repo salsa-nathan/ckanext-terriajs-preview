@@ -1,0 +1,42 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "stroke": "#7987ff",
+        "stroke-width": 2,
+        "stroke-opacity": 1,
+        "fill": "#7987ff",
+        "fill-opacity": 0.5
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              {{ extent.point_1.lon }},
+              {{ extent.point_1.lat }}
+            ],
+            [
+              {{ extent.point_2.lon }},
+              {{ extent.point_1.lat }}
+            ],
+            [
+              {{ extent.point_2.lon }},
+              {{ extent.point_2.lat }}
+            ],
+            [
+              {{ extent.point_1.lon }},
+              {{ extent.point_2.lat }}
+            ],
+            [
+              {{ extent.point_1.lon }},
+              {{ extent.point_1.lat }}
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

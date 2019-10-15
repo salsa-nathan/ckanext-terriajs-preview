@@ -1,0 +1,95 @@
+{% extends 'dataviewer/base.html' %}
+
+{% block page %}
+
+    {% if resource_view.show_extent and resource_view.extent %}
+        {% set display_extent = true %}
+        {% set extent = h.extent_str_to_coords(resource_view.extent) %}
+        {% if not extent %}
+            <h1>ERROR - Extent supplied in incorrect format</h1>
+        {% endif %}
+    {% else %}
+        {% set display_extent = false %}
+    {% endif %}
+
+
+    {% if (display_extent and extent) or (not display_extent and resource.url) %}
+
+    <style>
+    .ckanext-datapreview > iframe {
+        min-height: 360px;
+    }
+    </style>
+
+    <iframe id="embeddedNationalMap" src="http://localhost:3001/#clean&map=2D" width="100%" height="360"></iframe>
+
+    <script type="text/javascript">
+        window.addEventListener('message', function(e) {
+            var iframeWindow = document.getElementById('embeddedNationalMap').contentWindow;
+            if (e.source === iframeWindow && e.data === 'ready') {
+                // NationalMap is ready to receive messages!
+                iframeWindow.postMessage({
+                    initSources: [
+                        {
+ 	                        // corsDomains: [ "datavicckan.loc" ],
+                            homeCamera: {
+                                "west": 140,
+                                "south": -39,
+                                "east": 150,
+                                "north": -34
+                            },
+                            initialCamera: {
+                                "west": 140,
+                                "south": -39,
+                                "east": 150,
+                                "north": -34
+                            },
+                            catalog: [
+                                {
+                                    type: "group",
+                                    name: "Data.Vic",
+                                    isPromoted: true,
+                                    isOpen: true,
+                                    items: [
+                                        {
+                                            type: "{{ resource.format|lower }}",
+                                            name: "{{ resource.name }}",
+                                            "isEnabled": true,
+                                            // "zoomOnEnable": true,
+											// url: "{{ resource.url }}",
+                                        {% if display_extent %}
+                                            data: {% snippet 'snippets/extent_geojson.html', extent=extent %}
+                                        {% else %}
+											url: "{{ resource.url }}",
+                                        {% endif %}
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }, 'http://localhost:3001');
+            }
+        });
+    </script>
+
+  <div>
+
+      <div class="loading">
+        {{ _('Loading...') }}
+      </div>
+
+  </div>
+
+    {% endif %}
+
+    <hr />
+
+      <h2>Resource view:</h2>
+      {{ resource_view }}
+    <hr />
+
+      <h2>Resource:</h2>
+      {{ resource }}
+
+{% endblock %}
